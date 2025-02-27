@@ -19,8 +19,6 @@ int main(void){
 
     token = analex();
     E();
-
-    printf("%d", token);
     if(token == ';'){
         printf("No Syntactic Errors!\n");
     }else {
@@ -31,19 +29,16 @@ int main(void){
 }
 
 void E(){
-    printf("E\n");
     T();
     E_();
 }
 
 void T(){
-    printf("T\n");
     F();
     T_();
 }
 
 void T_(){
-    printf("T_\n");
     if(token == '*'){
         consume('*');
         F();
@@ -58,15 +53,11 @@ void T_(){
     }
 
     if(token == ';') return;
-
-    return;
-
-    syntacticError();
+    
     
 }
 
 void E_(){
-    printf("E_\n");
     if(token == '+'){
         consume('+');
         T();
@@ -82,14 +73,12 @@ void E_(){
 
     if(token == ';') return;
 
-    return;
 
-    syntacticError();
+    
 }
 
 void F() {
 
-    printf("F\n");
     if(token == NUM){
         consume(NUM);
         return;
@@ -103,9 +92,8 @@ void F() {
 
     if(token == ';') return;
 
-    return;
 
-    syntacticError();
+    
 }
 
 void syntacticError(){
@@ -116,7 +104,6 @@ void syntacticError(){
 
 void consume(int tokenToConsume) {
     if (token == tokenToConsume) {
-        printf("%d\n", token);
         token = analex();
     } else {
         syntacticError();
