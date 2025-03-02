@@ -1,10 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include<string.h>
 #include "analex.h"
 
 #define NUM 256
+#define space 
 
 int token;
+char infixForm[100];
+char number[4];
 
 void E();
 void E_();
@@ -13,6 +17,7 @@ void T_();
 void F();
 void consume(int tokenToConsume);
 void syntacticError();
+void concatInfixForm(int token);
 
 int main(void){
 
@@ -24,6 +29,8 @@ int main(void){
     }else {
         syntacticError();
     }
+
+    printf("%s", infixForm);
     
     return 0;
 }
@@ -43,12 +50,16 @@ void T_(){
         consume('*');
         F();
         T_();
+        concatInfixForm('*');
+
         return;
     }
     if(token == '/'){
         consume('/');
         F();
         T_();
+        concatInfixForm('/');
+
         return;
     }
 
@@ -62,12 +73,14 @@ void E_(){
         consume('+');
         T();
         E_();
+        concatInfixForm('+');
         return;
     }
     if(token == '-'){
         consume('-');
         T();
         E_();
+        concatInfixForm('-');
         return;
     }
 
@@ -80,6 +93,7 @@ void E_(){
 void F() {
 
     if(token == NUM){
+        concatInfixForm(NUM);
         consume(NUM);
         return;
     }
@@ -108,4 +122,18 @@ void consume(int tokenToConsume) {
     } else {
         syntacticError();
     }
+}
+
+void concatInfixForm(int token){
+
+    if(token == NUM){
+        sprintf(number, "%d ", tokenVal);
+        strcat(infixForm, number);
+        return;
+    }
+
+    char character = (char)token;
+    strncat(infixForm, &character, 1);
+    strcat(infixForm, " ");
+
 }

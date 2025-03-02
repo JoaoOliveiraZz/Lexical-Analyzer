@@ -5,11 +5,16 @@
 #define NUM 256
 
 int tokenVal;
+int line = 0;
 
 int analex(){
+    tokenVal = 0;
     char ch = getchar();
 
-    while(ch == ' ' || ch == '\n' || ch == '\t') ch = getchar();
+    while(ch == ' ' || ch == '\n' || ch == '\t') {
+        ch = getchar();
+        if(ch == '\n') line++;
+    };
 
     if(
         ch == '+' ||
@@ -22,14 +27,12 @@ int analex(){
     ) return ch;
 
     if(isdigit(ch)){
-        tokenVal = ch - '0';
         while(isdigit(ch)){
             tokenVal = tokenVal * 10 + (ch - '0');
             ch = getchar();
         }
 
         ungetc(ch, stdin);
-
         return NUM;
     }
 
